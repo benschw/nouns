@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "nouns"
+version = "0.1.0"
+description = ""
+authors = []
+packages = [
+    { include = "nouns" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+scikit-learn = "^1.5.1"
+spacy = "^3.7.6"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 110
+
+[tool.ruff]
+line-length = 999 # defer to black for this
+
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # isort
+    "PL",  # Pylint
+    "ARG", # flake8-unused-arguments
+    "T10", # flake8-debugger
+]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib --junit-xml=build/test-results/pytest/results.xml"
+filterwarnings = ["ignore::DeprecationWarning:pkg_resources"]
+
+[tool.coverage.run]
+omit = [
+  "*_pb2*"
+]
+branch=true
+source=["nouns"]
+data_file='build/coverage/.coverage'
+[tool.coverage.report]
+fail_under=81 # slightly higher than the 80% that sonar demands, so the failure happens in the build
+[tool.coverage.xml]
+output="build/coverage/coverage.xml"
+[tool.coverage.html]
+directory="build/coverage/htmlcov"
+
+[tool.poetry.scripts]
+main = "nouns.main:main"
